@@ -14,7 +14,8 @@ import { SlidingWindowBar } from './components/SlidingWindowBar';
 import { SequenceLadderDiagram } from './components/SequenceLadderDiagram';
 import { PacketHeaderInspector } from './components/PacketHeaderInspector';
 import { ComponentInspectorPanel } from './components/ComponentInspectorPanel';
-import { Terminal, Shield, ArrowRight, BookOpen, Layers } from 'lucide-react';
+import { TestSuiteModal } from './components/TestSuiteModal';
+import { Terminal, Shield, ArrowRight, BookOpen, Layers, CheckCircle2 } from 'lucide-react';
 
 export default function App() {
   const [activeScenarioId, setActiveScenarioId] = useState<ScenarioId>('handshake');
@@ -22,6 +23,7 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1.0);
   const [dropNextPacket, setDropNextPacket] = useState<boolean>(false);
+  const [isTestModalOpen, setIsTestModalOpen] = useState<boolean>(false);
 
   // Inspector state
   const [inspectedComponent, setInspectedComponent] = useState<ComponentInfo | null>(null);
@@ -368,6 +370,7 @@ export default function App() {
         onOpenSandbox={() =>
           handleSelectScenario(activeScenarioId === 'sandbox' ? 'handshake' : 'sandbox')
         }
+        onOpenTests={() => setIsTestModalOpen(true)}
       />
 
       {/* Main Workspace Canvas & Controls */}
@@ -384,10 +387,17 @@ export default function App() {
             <p className="text-xs text-slate-400 mt-1 max-w-2xl">{currentScenario.summary}</p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-slate-400 bg-slate-950/60 px-3 py-2 rounded-lg border border-slate-800">
-            <Shield className="w-4 h-4 text-emerald-400" />
-            <span>RFC 793 Compliant Protocol Verification</span>
-          </div>
+          <button
+            onClick={() => setIsTestModalOpen(true)}
+            className="flex items-center gap-2 text-xs text-emerald-300 hover:text-emerald-200 bg-slate-950/70 hover:bg-slate-950 px-3.5 py-2 rounded-lg border border-slate-800 hover:border-emerald-700/60 transition-colors cursor-pointer group"
+            title="Open test suite"
+          >
+            <Shield className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+            <span>RFC Verification Test Suite</span>
+            <span className="text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800/80 px-1.5 py-0.5 rounded">
+              17 Tests
+            </span>
+          </button>
         </div>
 
         {/* Primary Interactive Stage: 3D Isometric Projection */}
@@ -518,6 +528,12 @@ export default function App() {
           else if (componentId === 'rst-packet') handleDispatchSandboxPacket('rst');
           else handleDispatchSandboxPacket('data');
         }}
+      />
+
+      {/* In-App Test Suite Modal */}
+      <TestSuiteModal
+        isOpen={isTestModalOpen}
+        onClose={() => setIsTestModalOpen(false)}
       />
 
       {/* Quiet, unboxed Footer with RFC citations */}

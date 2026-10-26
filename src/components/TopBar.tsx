@@ -1,16 +1,19 @@
 import React from 'react';
 import { ScenarioId } from '../types/tcp';
+import { CheckCircle2 } from 'lucide-react';
 
 interface TopBarProps {
   onSelectNav: (id: ScenarioId) => void;
   activeScenarioId: ScenarioId;
   onOpenSandbox: () => void;
+  onOpenTests: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
   onSelectNav,
   activeScenarioId,
   onOpenSandbox,
+  onOpenTests,
 }) => {
   return (
     <header className="flex items-center justify-between gap-8 px-6 py-4 border-b border-slate-800 bg-slate-950/70 backdrop-blur-md sticky top-0 z-40">
@@ -68,8 +71,16 @@ export const TopBar: React.FC<TopBarProps> = ({
         </button>
       </nav>
 
-      {/* Zone 3: 1 Primary Action */}
-      <div className="flex items-center gap-3 shrink-0">
+      {/* Zone 3: Actions */}
+      <div className="flex items-center gap-2.5 shrink-0">
+        <button
+          onClick={onOpenTests}
+          className="px-3 py-2 text-xs font-semibold text-emerald-300 bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-700/60 rounded-lg transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 shadow-xs"
+          title="Run TCP verification test suite"
+        >
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Test Suite</span>
+        </button>
         <button
           onClick={onOpenSandbox}
           className="px-4 py-2 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm"
