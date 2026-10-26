@@ -1,0 +1,6 @@
+{
+  "name": "Isometric TCP Protocol Visualizer",
+  "description": "An interactive, clean isometric visualization exploring how the Transmission Control Protocol (TCP) establishes connections, reliably streams data with sliding windows, handles packet loss, and gracefully closes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
